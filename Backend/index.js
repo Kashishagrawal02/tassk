@@ -13,7 +13,13 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const URI = process.env.MONGODB_URI;
 
-app.use(cors());
+// ✅ CORS CONFIG
+app.use(cors({
+  origin: "https://tassk-1.onrender.com",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
 app.use(express.json());
 
 mongoose
@@ -23,9 +29,10 @@ mongoose
 
 app.use("/api/auth", taskRoute);
 
+// Serve frontend build
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-// ✅ SAFE SPA FALLBACK
+// SPA fallback
 app.use((req, res) => {
   res.sendFile(
     path.join(__dirname, "../frontend/build/index.html")

@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import logo from "./logo.png";
 import "./task.css";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const TaskCard = () => {
   const [data, setData] = useState([]);
@@ -17,7 +18,7 @@ const TaskCard = () => {
   const [edittask, setEditTask] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/auth/getAllTask", {
+    fetch(`${API_URL}/api/auth/getAllTask`, {
     })
       .then((res) => res.json())
       .then((result) => {
@@ -32,7 +33,7 @@ const TaskCard = () => {
       return;
     }
 
-    fetch("http://localhost:5000/api/auth/createTask", {
+    fetch(`${API_URL}/api/auth/createTask`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -70,7 +71,7 @@ const TaskCard = () => {
   };
 
   const handleEdit = () => {
-    fetch(`http://localhost:5000/api/auth/editTask/${edittask}`, {
+    fetch(`${API_URL}/api/auth/editTask/${edittask}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -95,7 +96,7 @@ const TaskCard = () => {
   };
 
   const deleteTask = (id) => {
-    fetch(`http://localhost:5000/api/auth/deleteTask/${id}`, {
+    fetch(`${API_URL}/api/auth/deleteTask/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
